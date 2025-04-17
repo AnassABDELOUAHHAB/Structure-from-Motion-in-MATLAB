@@ -1,6 +1,5 @@
 # Incremental 3D Scene Reconstruction  
 **Structure from Motion (SfM) with Bundle Adjustment**  
-![3D Reconstruction Demo](https://via.placeholder.com/800x400.png?text=3D+Reconstruction+Visualization)  
 
 ---
 
