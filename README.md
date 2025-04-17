@@ -4,7 +4,7 @@
 
 ---
 
-## 📖 Project Overview  
+## Project Overview  
 This MATLAB-based project implements **incremental 3D reconstruction** from a sequence of images to estimate:  
 - **3D point cloud** of the scene  
 - **Camera poses** (rotation `R` and translation `t`) for each image  
@@ -13,7 +13,7 @@ Built as part of the ENSEIRB Matmeca curriculum, the pipeline follows the Struct
 
 ---
 
-## ✨ Key Features  
+## Key Features  
 - **Incremental Reconstruction**: Adds images iteratively while refining poses and 3D points.  
 - **Bundle Adjustment**: Minimizes reprojection error using the **Levenberg-Marquardt** algorithm.  
 - **Sparse Jacobian Optimization**: Efficiently handles large-scale problems with MATLAB’s `sparse` matrices.  
@@ -22,7 +22,7 @@ Built as part of the ENSEIRB Matmeca curriculum, the pipeline follows the Struct
 
 ---
 
-## 🚀 Getting Started  
+## Getting Started  
 
 ### Prerequisites  
 - **MATLAB** (R2021a or later)  
