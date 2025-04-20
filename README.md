@@ -24,6 +24,6 @@ Built as part of the ENSEIRB Matmeca curriculum, the pipeline follows the Struct
 ## Getting Started  
 
 ### Prerequisites  
-![Équation](https://latex.codecogs.com/png.image?\dpi{120}x=\frac{-b\pm\sqrt{b^2-4ac}}{2a})
+This sentence uses `$` delimiters to show math inline: $\sqrt{3x-1}+(1+x)^2$
 - **MATLAB** (R2021a or later)  
 - Image dataset with pre-computed keypoint tracks.
