@@ -24,5 +24,6 @@ Built as part of the ENSEIRB Matmeca curriculum, the pipeline follows the Struct
 ## Getting Started  
 
 ### Prerequisites  
+![Équation](https://latex.codecogs.com/png.image?\dpi{120}x=\frac{-b\pm\sqrt{b^2-4ac}}{2a})
 - **MATLAB** (R2021a or later)  
 - Image dataset with pre-computed keypoint tracks.
