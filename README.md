@@ -215,12 +215,11 @@ J = sparse(i, j, v);
 
 ### Bundle Adjustment – Before and After
 **Before:**
+
 ![Initial Triangulation](images/im1_before.png)
+
 **After:**
 ![Before Bundle Adjustment](images/im1_after.png)
-
-### Incremental Reconstruction with Refinement
-
 
 ### Final point cloud estimation
 
