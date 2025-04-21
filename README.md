@@ -51,6 +51,43 @@ Finally, the reconstruction is visualized using colored 3D point clouds, enhanci
 The optimization problem solved during bundle adjustment minimizes the reprojection error across all visible points in all images. The cost function is defined as:
 
 $$\min_{\substack{\lbrace {R_{wj}, t_{wj}} \rbrace_{j=1,M} \\ \lbrace {u_i^{w}} \rbrace_{i=1...N} }} \sum_{j=1}^{M} \sum_{c=1}^{C_j} \left\| p_{j,p2DId(c)} - K\pi(R_{wj}^T(u_{p3DId(c)}^w-t_{wj})) \right\|_2^2$$
+
+### 📐 Explanation of the Cost Function Terms
+
+Where:
+
+- **\( M \)**: Number of images (in the initialization step, \( M = 2 \)).
+- **\( C_j \)**: Number of 3D points observed in image \( j \).
+- **\( R_{wj}, t_{wj} \)**: Rotation and translation matrices of image \( j \).
+- **\( u_i^w \)**: Reconstructed 3D points in world coordinates.
+- **`p2DId(c)`**: Index of the 2D point among all detected points in image \( j \).
+- **`p3DId(c)`**: Index of the corresponding 3D point.
+- **\( \pi(\cdot) \)**: Projection function that maps 3D points to 2D image coordinates.
+- **\( K \)**: Intrinsic camera calibration matrix of the form:
+
+  \[
+  K = 
+  \begin{bmatrix}
+  f_x & 0 & c_x \\
+  0 & f_y & c_y
+  \end{bmatrix}
+  \]
+
+  with \( f_x, f_y \) being the focal lengths in x and y directions, and \( c_x, c_y \) being the coordinates of the optical center in the image.
+
+  In this project, the matrix \( K \) is defined as:
+
+  \[
+  K = 
+  \begin{bmatrix}
+  535 & 0 & 320 \\
+  0 & 539 & 247
+  \end{bmatrix}
+  \]
+
+- **\( p_{j,p2DId(c)} \)**: The 2D point in image \( j \) that corresponds to the projection of the 3D point \( u^w_{p3DId(c)} \).
+
+
 ---
 
 
