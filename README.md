@@ -1,5 +1,4 @@
-# Incremental 3D Scene Reconstruction  
-**Structure from Motion (SfM) with Bundle Adjustment**  
+# Incremental 3D Scene Reconstruction   
 
 ---
 
@@ -21,18 +20,7 @@ Built as part of the ENSEIRB Matmeca curriculum, the pipeline follows the Struct
 
 ---
 
-## Getting Started  
-
-### Prerequisites  
-
-
-
-- **MATLAB** (R2021a or later)  
-- Image dataset with pre-computed keypoint tracks.
-
-## Project Overview & Theoretical Background
-
-This project implements an **incremental 3D reconstruction pipeline** from a set of sequential images extracted from a video. The goal is to reconstruct a sparse 3D point cloud of a scene and estimate the camera poses (rotations and translations) corresponding to each image. This technique is widely used in Structure-from-Motion (SfM) and photogrammetry applications.
+## Theoretical Background
 
 The reconstruction process relies on key concepts from **multi-view geometry**. Initially, two images are used to estimate their relative pose by decomposing the **fundamental matrix**, assuming known intrinsic parameters. From this, initial 3D points are reconstructed via **triangulation**. A **bundle adjustment** algorithm is then applied to jointly refine the 3D point positions and camera poses by minimizing the **reprojection error**.
 
@@ -222,19 +210,19 @@ J = sparse(i, j, v);
 ## Visual Results
 
 ### Initial Triangulation
-![Initial Triangulation](images/Fonction_cout1.png)
+![Initial Triangulation](images/im1_befor.png)
 
 ### Bundle Adjustment – Before and After
 **Before:**
-![Before Bundle Adjustment](images/before_bundle_adjustment.png)
+![Before Bundle Adjustment](images/im1_after.png)
 
 **After:**
-![After Bundle Adjustment](images/after_bundle_adjustment.png)
+![After Bundle Adjustment](images/resultat.png)
 
 ### Incremental Reconstruction with Refinement
-![Reconstruction with Refinement](images/refinement.png)
+![Reconstruction with Refinement](images/resulttt.png)
 
 ### Final 3D Reconstruction
-![Final 3D Reconstruction](images/final_result.png)
+![Final 3D Reconstruction](images/fig(1).png)
 
 > ℹ️ Make sure to place the images inside a folder named `images/` at the root of your repository.
