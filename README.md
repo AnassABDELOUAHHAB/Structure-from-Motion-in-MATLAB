@@ -57,7 +57,7 @@ $\min_{\{R_{wj}, t_{wj}\}, \{u_i^w\}} \sum_{j=1}^{M} \sum_{c=1}^{C_j} \left\| p_
 ## Visual Results
 
 ### Initial Triangulation
-![Initial Triangulation](images/triangulation.png)
+![Initial Triangulation](images/Fonction_cout.png)
 
 ### Bundle Adjustment – Before and After
 **Before:**
