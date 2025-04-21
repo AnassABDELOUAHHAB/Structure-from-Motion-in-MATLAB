@@ -224,7 +224,7 @@ J = sparse(i, j, v);
 
 </div>
 
-<div align="center"><em>Left: Before adjustment – Right: After adjustment</em></div
+<div align="center"><em>Left: Before adjustment – Right: After adjustment</em></div>
 
 
 ### Final point cloud estimation
