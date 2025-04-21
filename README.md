@@ -50,8 +50,7 @@ Finally, the reconstruction is visualized using colored 3D point clouds, enhanci
 
 The optimization problem solved during bundle adjustment minimizes the reprojection error across all visible points in all images. The cost function is defined as:
 
-```math
-\min_{\{R_{wj}, t_{wj}\}, \{u_i^w\}} \sum_{j=1}^{M} \sum_{c=1}^{C_j} \left\| p_{j,2D}^{(c)} - K \cdot \pi\left(R_{wj}^\top (u_{3D}^{(c)} - t_{wj})\right) \right\|^2
+$\min_{\{R_{wj}, t_{wj}\}, \{u_i^w\}} \sum_{j=1}^{M} \sum_{c=1}^{C_j} \left\| p_{j,2D}^{(c)} - K \cdot \pi\left(R_{wj}^\top (u_{3D}^{(c)} - t_{wj})\right) \right\|^2$
 ---
 
 
