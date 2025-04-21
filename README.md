@@ -239,7 +239,7 @@ Steps:
 2. Fill these vectors during Jacobian construction.
 3. Assemble the sparse matrix using:
 
-```matlab
+matlab
 J = sparse(i, j, v);
 
 
