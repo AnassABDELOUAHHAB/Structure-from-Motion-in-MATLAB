@@ -210,7 +210,7 @@ J = sparse(i, j, v);
 ## Visual Results
 
 ### Initial Triangulation
-![Initial Triangulation](images/im1_befor.png)
+![Initial Triangulation](images/im1_before.png)
 
 ### Bundle Adjustment – Before and After
 **Before:**
@@ -223,6 +223,6 @@ J = sparse(i, j, v);
 ![Reconstruction with Refinement](images/resulttt.png)
 
 ### Final 3D Reconstruction
-![Final 3D Reconstruction](images/fig(1).png)
+![Final 3D Reconstruction](images/fig1(1).png)
 
 > ℹ️ Make sure to place the images inside a folder named `images/` at the root of your repository.
