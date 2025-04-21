@@ -78,7 +78,7 @@ $$
 
 ### Jacobian Matrix Computation
 
-To implement the **Levenberg–Marquardt algorithm** for bundle adjustment, we need to compute the derivative of the projection function with respect to the parameters $\{R_{wj},\ t_{wj}\}_{j=1}^{M}$ and $\{u_i^w\}_{i=1}^{N}$.
+To implement the **Levenberg–Marquardt algorithm** for bundle adjustment, we need to compute the derivative of the projection function with respect to the parameters ${R_{wj},\ t_{wj}\}_{j=1}^{M}$ and $\{u_i^w\}_{i=1}^{N}$.
 
 At each iteration, the updates are:
 
@@ -237,5 +237,3 @@ J = sparse(i, j, v);
 
 <img src="images/resulttt.png" alt="Final 3D Reconstruction" width="500"/>
 </div>
-
-> ℹ️ Make sure to place the images inside a folder named `images/` at the root of your repository.
