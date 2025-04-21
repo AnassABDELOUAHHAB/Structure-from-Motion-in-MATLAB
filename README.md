@@ -213,7 +213,7 @@ J = sparse(i, j, v);
 <div align="center">
 <img src="images/fig.png" alt="Initial Triangulation" width="500"/>
 </div>
----
+
 
 ### Bundle Adjustment – Before and After
 
@@ -230,6 +230,7 @@ J = sparse(i, j, v);
 <div align="center">
 <img src="images/resultat.png" alt="Final point cloud estimation" width="500"/>
 </div>
+
 ### Final 3D Reconstruction
 <div align="center">
 
