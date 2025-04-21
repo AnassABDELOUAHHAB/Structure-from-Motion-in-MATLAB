@@ -210,9 +210,9 @@ J = sparse(i, j, v);
 ## Visual Results
 
 ### Initial Triangulation
-
+<div align="center">
 <img src="images/fig.png" alt="Initial Triangulation" width="500"/>
-
+</div>
 ---
 
 ### Bundle Adjustment – Before and After
@@ -227,9 +227,12 @@ J = sparse(i, j, v);
 <div align="center"><em>Left: Before adjustment – Right: After adjustment</em></div
 
 ### Final point cloud estimation
-
+<div align="center">
 ![After Bundle Adjustment](images/resultat.png)
+</div>
 ### Final 3D Reconstruction
+<div align="center">
 ![Reconstruction with Refinement](images/resulttt.png)
+</div>
 
 > ℹ️ Make sure to place the images inside a folder named `images/` at the root of your repository.
