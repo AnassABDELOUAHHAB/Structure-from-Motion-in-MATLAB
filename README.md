@@ -86,11 +86,39 @@ $$
 - $p_{j,\texttt{p2DId}(c)}$: The 2D point in image $j$ corresponding to the projection of the 3D point $u^w_{\texttt{p3DId}(c)}$.
 ---
 
+### 🧮 Jacobian Matrix Computation and Sparse Optimization
+
+In the **global bundle adjustment step**, optimization is performed over all camera poses and 3D points simultaneously. This requires the computation of the **Jacobian matrix $J$**, which captures the partial derivatives of the reprojection error with respect to all parameters (camera poses and 3D points).
+
+However, as the number of images and 3D points increases, the size of $J$ grows significantly, leading to high memory consumption and slower computation. To address this, we adopted a **sparse matrix representation** of $J$, since most of its elements are zero (each 2D observation only depends on a small subset of parameters).
+
+This sparsity is exploited in both the **storage** and the **optimization** steps, improving computational efficiency.
+
+Let $e_{ij}$ be the reprojection error of the $i$-th 3D point in the $j$-th image. The Jacobian matrix $J$ is defined as:
+
+$$
+J = \begin{bmatrix}
+\frac{\partial e_{11}}{\partial R_1} & \cdots & \frac{\partial e_{11}}{\partial u_1^w} & \cdots \\
+\vdots & \ddots & \vdots & \ddots \\
+\frac{\partial e_{ij}}{\partial R_j} & \cdots & \frac{\partial e_{ij}}{\partial u_i^w} & \cdots
+\end{bmatrix}
+$$
+
+Each row of $J$ corresponds to the gradient of a 2D point's reprojection error, and each column corresponds to a parameter (camera rotation, translation, or 3D point). Since each point is typically seen in a limited number of images, **most entries in $J$ are zero**.
+
+Instead of constructing a dense matrix, we use a **sparse matrix format** to:
+
+- Store only the non-zero elements of $J$,
+- Accelerate matrix operations (like computing $J^T J$),
+- Improve memory efficiency, especially for large-scale scenes.
+
+This modification enabled real-time performance for scenes with hundreds of images and thousands of 3D points.
+
 
 ## Visual Results
 
 ### Initial Triangulation
-![Initial Triangulation](images/Fonction_cout.png)
+![Initial Triangulation](images/Fonction_cout1.png)
 
 ### Bundle Adjustment – Before and After
 **Before:**
