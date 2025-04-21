@@ -226,5 +226,10 @@ J = sparse(i, j, v);
 
 <div align="center"><em>Left: Before adjustment – Right: After adjustment</em></div
 
+### Final point cloud estimation
+
+![After Bundle Adjustment](images/resultat.png)
+### Final 3D Reconstruction
+![Reconstruction with Refinement](images/resulttt.png)
 
 > ℹ️ Make sure to place the images inside a folder named `images/` at the root of your repository.
