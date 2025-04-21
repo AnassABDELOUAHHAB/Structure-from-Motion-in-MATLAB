@@ -85,79 +85,71 @@ $$
 
 - $p_{j,\texttt{p2DId}(c)}$: The 2D point in image $j$ corresponding to the projection of the 3D point $u^w_{\texttt{p3DId}(c)}$.
 ---
-### 🧮 Jacobian Matrix Computation
 
-To implement a Levenberg–Marquardt algorithm, it is necessary to know the expression of the derivative of:
 
-$$
-K \cdot \pi\left(R_{wj}^\top(u_i^w - t_{wj})\right)
-$$
 
-with respect to the parameters $\{R_{wj},\ t_{wj}\}_{j=1}^{M}$ and $\{u_i^w\}_{i=1}^{N}$.
+### Jacobian Matrix Computation
 
-We use the following notations to define the increments estimated at each iteration of Levenberg–Marquardt:
+To implement the **Levenberg–Marquardt algorithm** for bundle adjustment, we need to compute the derivative of the projection function with respect to the parameters $\{R_{wj},\ t_{wj}\}_{j=1}^{M}$ and $\{u_i^w\}_{i=1}^{N}$.
+
+At each iteration, the updates are:
 
 - $R_{wj}^{(l+1)} = R_{wj}^{(l)} \cdot \exp([\delta R_{wj}]^\wedge)$  
 - $t_{wj}^{(l+1)} = t_{wj}^{(l)} + \delta t_{wj}$  
 - $u_i^{w,(l+1)} = u_i^{w,(l)} + \delta u_i^w$
 
-**Note:** Since a rotation matrix is not an element of Euclidean space but a Lie group, the increment $\delta R_{wj}$ cannot be additive and must be adapted to the geometry of this Lie group. Thus, $\delta R_{wj}$ is a 3D vector (since a rotation matrix has 3 degrees of freedom) and is converted to a rotation matrix using the matrix exponential function (`expm` in MATLAB).
+> Since rotation matrices lie in a Lie group, the increment $\delta R_{wj}$ is a 3D vector (3 degrees of freedom) converted to a rotation matrix via the matrix exponential.
 
-The linearization of the reprojection error is written (omitting indices $l$ and $l+1$):
+The reprojection error is linearized as:
 
 $$
-p_{j,i} - K \cdot \pi\left((R_{wj} \cdot \exp([\delta R_{wj}]^\wedge))^\top (u_i^w + \delta u_i^w - t_{wj} - \delta t_{wj})\right)
-\approx r_{j,i} - J_{j,i} \delta
+p_{j,i} - K \cdot \pi\left( (R_{wj} \cdot \exp([\delta R_{wj}]^\wedge))^\top (u_i^w + \delta u_i^w - t_{wj} - \delta t_{wj}) \right) \approx r_{j,i} - J_{j,i} \delta
 $$
 
-where we define:
+Where:
 
 - $r_{j,i} = p_{j,i} - K \cdot \pi(R_{wj}^\top (u_i^w - t_{wj}))$
+- $\delta = \begin{bmatrix} \delta R_{w1} & \delta t_{w1} & \cdots & \delta R_{wM} & \delta t_{wM} & \delta u_1^w & \cdots & \delta u_N^w \end{bmatrix}^\top$
 
-- $\delta =
-\begin{bmatrix}
-\delta R_{w1} & \delta t_{w1} & \delta R_{w2} & \delta t_{w2} & \cdots & \delta R_{wM} & \delta t_{wM} & \delta u_1^w & \delta u_2^w & \cdots & \delta u_N^w
-\end{bmatrix}^\top$
+The Jacobian $J_{j,i}$ is defined as:
 
-- $J_{j,i} =
+$$
+J_{j,i} = 
 \begin{bmatrix}
 \begin{bmatrix}
 f_x & 0 \\
 0 & f_y
 \end{bmatrix}
-J_\pi
+\cdot J_\pi \cdot
 \begin{bmatrix}
-J_{R_{w1}} & J_{t_{w1}} & \cdots & J_{R_{wM}} & J_{t_{wM}} & J_{u_1^w} & J_{u_2^w} & \cdots & J_{u_N^w}
+J_{R_{w1}} & J_{t_{w1}} & \cdots & J_{R_{wM}} & J_{t_{wM}} & J_{u_1^w} & \cdots & J_{u_N^w}
 \end{bmatrix}
-\end{bmatrix}$
+\end{bmatrix}
+$$
 
-with:
+With:
+
+- **Projection Jacobian**:
 
 $$
-J_\pi =
-\left.
-\frac{\partial}{\partial \delta u_{ji}} \pi(u_{ji} + \delta u_{ji})
-\right|_{\delta u_{ji} = 0}
-=
+J_\pi = 
 \begin{bmatrix}
 \frac{1}{z} & 0 & -\frac{x}{z^2} \\
 0 & \frac{1}{z} & -\frac{y}{z^2}
 \end{bmatrix}
 $$
 
+- **Rotation Jacobian**:
+
 $$
-J_{R_{wk}} =
-\left.
-\frac{\partial}{\partial \delta R_{wk}} \left((R_{wj} \cdot \exp([\delta R_{wj}]^\wedge))^\top (u_i^w - t_{wj})\right)
-\right|_{\delta R_{wk} = 0}
-=
+J_{R_{wk}} = 
 \begin{cases}
-0 & \text{if } k \ne j \\
-\left[G_x^\top u_{ji} \quad G_y^\top u_{ji} \quad G_z^\top u_{ji}\right] & \text{if } k = j
+0, & \text{if } k \neq j \\
+\left[ G_x^\top u_{ji} \quad G_y^\top u_{ji} \quad G_z^\top u_{ji} \right], & \text{if } k = j
 \end{cases}
 $$
 
-where:
+Where:
 
 $$
 G_x =
@@ -165,13 +157,13 @@ G_x =
 0 & 0 & 0 \\
 0 & 0 & -1 \\
 0 & 1 & 0
-\end{bmatrix},\quad
+\end{bmatrix}, \quad
 G_y =
 \begin{bmatrix}
 0 & 0 & 1 \\
 0 & 0 & 0 \\
 -1 & 0 & 0
-\end{bmatrix},\quad
+\end{bmatrix}, \quad
 G_z =
 \begin{bmatrix}
 0 & -1 & 0 \\
@@ -180,63 +172,49 @@ G_z =
 \end{bmatrix}
 $$
 
-$$
-J_{t_{wk}} =
-\left.
-\frac{\partial}{\partial \delta t_{wk}} \left(R_{wj}^\top (u_i^w - t_{wj} - \delta t_{wj})\right)
-\right|_{\delta t_{wk} = 0}
-=
-\begin{cases}
-0 & \text{if } k \ne j \\
-- R_{wj}^\top & \text{if } k = j
-\end{cases}
-$$
+- **Translation and Point Jacobians**:
 
 $$
-J_{u_k^w} =
-\left.
-\frac{\partial}{\partial \delta u_k^w} \left(R_{wj}^\top (u_i^w + \delta u_i^w - t_{wj})\right)
-\right|_{\delta u_k^w = 0}
-=
+J_{t_{wk}} =
 \begin{cases}
-0 & \text{if } k \ne i \\
-R_{wj}^\top & \text{if } k = i
+0, & \text{if } k \neq j \\
+-R_{wj}^\top, & \text{if } k = j
+\end{cases}, \quad
+J_{u_k^w} =
+\begin{cases}
+0, & \text{if } k \neq i \\
+R_{wj}^\top, & \text{if } k = i
 \end{cases}
 $$
 
 ---
 
-### 🧠 MATLAB `sparse` Function
+### Sparse Matrix Construction
 
-Each iteration of the Levenberg–Marquardt algorithm involves solving a problem of the form:
+Each iteration of Levenberg–Marquardt solves:
 
 $$
-\min_{\delta} \|r - J \delta\|_2^2 + \lambda \|\delta\|_2^2
+\min_{\delta} \| r - J \delta \|^2 + \lambda \| \delta \|^2
 $$
 
-which is equivalent to solving the linear system:
+Which leads to solving:
 
 $$
 (J^\top J + \lambda I)\delta = J^\top r
 $$
 
-However, when the number of cameras and 3D points becomes large, the matrix $J$ itself becomes very large. It becomes difficult to store it in memory and the computations involving it become very slow.
+But when the number of cameras and 3D points becomes large, the matrix $J$ becomes too large and dense to store in memory or process efficiently.
 
-In practice, to be able to compute a reconstruction with a large number of cameras, it is necessary to **avoid creating the dense matrix $J$**, and instead **construct it in sparse format**.
+To handle this, we use MATLAB's **`sparse`** matrix functionality to construct $J$ directly in sparse format.
 
-The `sparse` function allows taking advantage of the fact that matrix $J$ contains a large number of zeros that do not need to be stored.
+Steps:
 
-⚠️ Do **not** use the `sparse` function by passing it a dense matrix $J$, as this would require creating the dense matrix in memory — which is precisely what we want to avoid.
+1. Create the index and value vectors `i`, `j`, and `v` for non-zero entries.
+2. Fill these vectors during Jacobian construction.
+3. Assemble the sparse matrix using:
 
-**Instead, proceed in 3 steps:**
-
-1. Create the vectors `i`, `j`, and `v` which represent the **row indices**, **column indices**, and **values** of the non-zero elements of $J$.
-2. Fill the vectors `i`, `j`, and `v`.
-3. Use them to create the sparse matrix:
-
-```matlab
+matlab
 J = sparse(i, j, v);
-
 
 
 ---
