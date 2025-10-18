@@ -1,38 +1,30 @@
 # Incremental 3D Scene Reconstruction   
 
----
 
 ## Project Overview  
-This MATLAB-based project implements **incremental 3D reconstruction** from a sequence of images to estimate:  
-- **3D point cloud** of the scene  
-- **Camera poses** (rotation `R` and translation `t`) for each image  
+This MATLAB-based project implements **incremental 3D reconstruction** from a sequence of images to estimate :  
+- **3D point cloud** of the scene.  
+- **Camera poses** (rotation `R` and translation `t`) for each image.
 
-Built as part of the ENSEIRB Matmeca curriculum, the pipeline follows the Structure from Motion (SfM) methodology, assuming pre-computed keypoint correspondences (outlier-free).  
+The pipeline follows the Structure from Motion (SfM) methodology, assuming pre-computed keypoint correspondences (outlier-free).  
 
----
 
 ## Key Features  
-- **Incremental Reconstruction**: Adds images iteratively while refining poses and 3D points.  
-- **Bundle Adjustment**: Minimizes reprojection error using the **Levenberg-Marquardt** algorithm.  
-- **Sparse Jacobian Optimization**: Efficiently handles large-scale problems with MATLAB’s `sparse` matrices.  
-- **Visualization**: Supports `pointCloud()` for interactive 3D exploration or `plot3()` for basic plotting.  
-- **Error Analysis**: Tracks reprojection errors before/after refinement.  
+- **Incremental Reconstruction** : Adds images iteratively while refining poses and 3D points.  
+- **Bundle Adjustment** : Minimizes reprojection error using the **Levenberg-Marquardt** algorithm.  
+- **Sparse Jacobian Optimization** : Efficiently handles large-scale problems with MATLAB’s `sparse` matrices.  
+- **Visualization** : Supports `pointCloud()` for interactive 3D exploration or `plot3()` for basic plotting.  
+- **Error Analysis** : Tracks reprojection errors before/after refinement.  
 
----
 
 ## Theoretical Background
 
 The reconstruction process relies on key concepts from **multi-view geometry**. Initially, two images are used to estimate their relative pose by decomposing the **fundamental matrix**, assuming known intrinsic parameters. From this, initial 3D points are reconstructed via **triangulation**. A **bundle adjustment** algorithm is then applied to jointly refine the 3D point positions and camera poses by minimizing the **reprojection error**.
 
 As new images are introduced, the process becomes **incremental**:
-1. **Localization** – The pose of the new camera is estimated using already triangulated 3D points.
-2. **Triangulation** – New 3D points are computed using the newly added view.
-3. **Refinement** – A global bundle adjustment is periodically applied to refine all poses and 3D points, using sparse optimization techniques for memory efficiency.
-
-Finally, the reconstruction is visualized using colored 3D point clouds, enhancing both clarity and realism.
-
----
-
+1. **Localization** : The pose of the new camera is estimated using already triangulated 3D points.
+2. **Triangulation** : New 3D points are computed using the newly added view.
+3. **Refinement** : A global bundle adjustment is periodically applied to refine all poses and 3D points, using sparse optimization techniques for memory efficiency.
 
 ### Bundle Adjustment Cost Function
 
@@ -72,13 +64,15 @@ K =
 $$
 
 - $p_{j,\texttt{p2DId}(c)}$: The 2D point in image $j$ corresponding to the projection of the 3D point $u^w_{\texttt{p3DId}(c)}$.
----
 
 
 
 ### Jacobian Matrix Computation
 
-To implement the **Levenberg–Marquardt algorithm** for bundle adjustment, we need to compute the derivative of the projection function with respect to the parameters ${R_{wj},\ t_{wj}\}_{j=1}^{M}$ and $\{u_i^w\}_{i=1}^{N}$.
+To implement the **Levenberg–Marquardt algorithm** for bundle adjustment, we need to compute the derivative of the projection function with respect to the parameters
+$\{ ((R_{wj}, t_{wj}) \mid j = 1, \ldots, M )\} \quad \text{and} \quad \{ (u_i^w \mid i = 1, \ldots, N )\}$
+
+
 
 At each iteration, the updates are:
 
@@ -97,7 +91,12 @@ $$
 Where:
 
 - $r_{j,i} = p_{j,i} - K \cdot \pi(R_{wj}^\top (u_i^w - t_{wj}))$
-- $\delta = \begin{bmatrix} \delta R_{w1} & \delta t_{w1} & \cdots & \delta R_{wM} & \delta t_{wM} & \delta u_1^w & \cdots & \delta u_N^w \end{bmatrix}^\top$
+- $$
+\delta = 
+\begin{bmatrix}
+\delta R_{w1} & \delta t_{w1} & \cdots & \delta R_{wM} & \delta t_{wM} & \delta u_1^w & \cdots & \delta u_N^w
+\end{bmatrix}^\top
+$$
 
 The Jacobian $J_{j,i}$ is defined as:
 
@@ -205,7 +204,6 @@ matlab
 J = sparse(i, j, v);
 
 
----
 
 ## Visual Results
 
