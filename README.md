@@ -52,17 +52,6 @@ f_x & 0 & c_x \\
 $$
 
 where $f_x$, $f_y$ are the focal lengths in the $x$ and $y$ directions, and $c_x$, $c_y$ are the coordinates of the optical center in the image.
-
-In this project, the matrix $K$ is defined as:
-
-$$
-K = 
-\begin{bmatrix}
-535 & 0 & 320 \\
-0 & 539 & 247
-\end{bmatrix}
-$$
-
 - $p_{j,\texttt{p2DId}(c)}$: The 2D point in image $j$ corresponding to the projection of the 3D point $u^w_{\texttt{p3DId}(c)}$.
 
 
