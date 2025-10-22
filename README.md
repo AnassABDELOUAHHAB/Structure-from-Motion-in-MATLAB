@@ -91,12 +91,6 @@ $$
 Where:
 
 - $r_{j,i} = p_{j,i} - K \cdot \pi(R_{wj}^\top (u_i^w - t_{wj}))$
-- $$
-\delta = 
-\begin{bmatrix}
-\delta R_{w1} & \delta t_{w1} & \cdots & \delta R_{wM} & \delta t_{wM} & \delta u_1^w & \cdots & \delta u_N^w
-\end{bmatrix}^\top
-$$
 
 The Jacobian $J_{j,i}$ is defined as:
 
